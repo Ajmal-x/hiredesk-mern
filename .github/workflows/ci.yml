@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    name: Typecheck, test, build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck server
+        run: npm run lint --workspace server
+
+      - name: Typecheck client
+        run: npm run lint --workspace client
+
+      # mongodb-memory-server downloads a real MongoDB binary; caching it
+      # keeps CI from re-fetching ~80 MB on every run.
+      - name: Cache MongoDB binary
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/mongodb-binaries
+          key: ${{ runner.os }}-mongodb-binaries
+
+      - name: Run server tests
+        run: npm test --workspace server
+
+      - name: Build server
+        run: npm run build --workspace server
+
+      - name: Build client
+        run: npm run build --workspace client
+
+      # Reported but not enforced. A new advisory in a transitive dependency
+      # should not turn this repository's badge red months after the last
+      # commit — the tests and builds above are the real gate.
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+        continue-on-error: true
