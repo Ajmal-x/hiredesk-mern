@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import {
   AlertCircle,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Inbox,

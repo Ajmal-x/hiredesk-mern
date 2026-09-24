@@ -1,10 +1,10 @@
 import { useRef, useState, type FormEvent } from 'react';
 import {
   BriefcaseBusiness,
-  CheckCircle2,
   FileText,
   MapPin,
   Paperclip,
+  CheckCircle2,
   Trash2,
   Upload,
 } from 'lucide-react';

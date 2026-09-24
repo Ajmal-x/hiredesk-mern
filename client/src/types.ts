@@ -23,6 +23,7 @@ export interface User {
   experienceYears: number;
   company?: string;
   createdAt: string;
+  resumeUrl?: string;
 }
 
 export interface Job {
