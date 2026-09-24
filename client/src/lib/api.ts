@@ -5,7 +5,8 @@
  * payload cannot read it off disk. It is restored on page load by calling
  * /auth/refresh, which reads the httpOnly cookie the browser sends for us.
  */
-const BASE_URL = '/api';
+const BASE_URL =
+  import.meta.env.VITE_API_URL || '/api';
 
 let accessToken: string | null = null;
 
